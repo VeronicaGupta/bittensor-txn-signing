@@ -1,0 +1,17 @@
+{
+    "name": "bittensor-txn-signing",
+    "version": "1.0.0",
+    "description": "Description of your project",
+    "main": "index.js",
+    "type":"module",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "devDependencies": {
+        "@polkadot/wasm-crypto": "latest",
+        "@polkadot/keyring": "latest"
+    },
+    "author": "Parnika Gupta",
+    "license": "Apache-2.0"
+  }
+  
