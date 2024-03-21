@@ -1,0 +1,22 @@
+{
+    "name": "bittensor-txn-signing",
+    "version": "1.0.0",
+    "description": "Description of your project",
+    "main": "index.js",
+    "type":"module",
+    "scripts": {
+      "build": "turbo run build --no-daemon"
+    },
+    "devDependencies": {
+        "@polkadot/wasm-crypto": "latest",
+        "@polkadot/keyring": "latest",
+        "turbo": "latest"
+    },
+    "author": "Parnika Gupta",
+    "license": "Apache-2.0",
+    "engines": {
+      "node": ">=18.0.0"
+    },
+    "packageManager": "pnpm@7.18.1"
+  }
+  

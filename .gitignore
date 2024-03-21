@@ -1,4 +1,3 @@
 
-cli/env/*
-test-py/env/*
-test-js/node_modules/*
+*/env/*
+*/node_modules/*
