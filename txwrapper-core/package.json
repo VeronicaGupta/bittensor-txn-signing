@@ -1,0 +1,44 @@
+{
+  "name": "txwrapper-core",
+  "repository": "https://github.com/paritytech/txwrapper-core",
+  "author": "Parity Technologies <admin@parity.io>",
+  "license": "Apache-2.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "deploy": "yarn run build && lerna version --conventional-commits --create-release github && lerna publish from-package",
+    "deploy:force": "yarn run build && yarn lerna version ${FORCE_VERSION} --force-publish --conventional-commits --create-release github && yarn lerna publish from-package",
+    "version": "yarn install && git stage yarn.lock",
+    "build": "lerna run build",
+    "repair": "lerna repair",
+    "build:workspace": "substrate-exec-rimraf $INIT_CWD/lib/ && cd $INIT_CWD && tsc -p tsconfig.build.json",
+    "lint": "substrate-dev-run-lint",
+    "lint:fix": "substrate-dev-run-lint --fix",
+    "lint:ci": "substrate-dev-run-lint",
+    "test": "substrate-exec-jest --detectOpenHandles",
+    "test:watch": "substrate-exec-jest --watch",
+    "test:cov": "substrate-exec-jest --detectOpenHandles --coverage",
+    "test:ci": "NODE_ENV=test substrate-exec-jest --detectOpenHandles --runInBand",
+    "docs": "typedoc --plugin typedoc-plugin-missing-exports --plugin typedoc-theme-hierarchy --plugin typedoc-plugin-remove-references --gitRemote origin"
+  },
+  "devDependencies": {
+    "@polkadot/util-crypto": "^12.6.2",
+    "@substrate/dev": "^0.7.1",
+    "@types/node-fetch": "^2.6.3",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "lerna": "^8.1.2",
+    "rimraf": "3.0.2",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "typedoc": "^0.25.9",
+    "typedoc-plugin-missing-exports": "^2.2.0",
+    "typedoc-plugin-remove-references": "^0.0.6",
+    "typedoc-theme-hierarchy": "^4.0.0",
+    "typescript": "4.9.4"
+  },
+  "packageManager": "yarn@4.1.0"
+}

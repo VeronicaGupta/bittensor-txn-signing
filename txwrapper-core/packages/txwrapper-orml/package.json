@@ -1,0 +1,26 @@
+{
+  "name": "@substrate/txwrapper-orml",
+  "version": "7.3.0",
+  "author": "Parity Technologies <admin@parity.io>",
+  "description": "Selected dispatchables of ORML pallets, to be re-exported by txwrappers.",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engine": {
+    "node": ">=14"
+  },
+  "repository": "https://github.com/paritytech/txwrapper-core",
+  "bugs": "https://github.com/paritytech/txwrapper-core/issues",
+  "homepage": "https://github.com/paritytech/txwrapper-core/tree/master/packages/txwrapper-orml#readme",
+  "scripts": {
+    "build": "yarn build:workspace"
+  },
+  "dependencies": {
+    "@substrate/txwrapper-core": "^7.3.0"
+  },
+  "devDependencies": {
+    "@substrate/txwrapper-dev": "^7.3.0"
+  }
+}

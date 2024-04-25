@@ -134,41 +134,60 @@ void hash256(uint8_t* data, uint8_t* output, size_t size) {
 void get_keys(const char *mnemonic, const char *passphrase, uint8_t* public_key, uint8_t* private_key,
                 size_t publickey_len, size_t privkey_len, uint32_t purpose, uint32_t coin_type, 
                 uint32_t account, uint32_t change, uint32_t address_idx) {
-    uint8_t seed[64];
-    mnemonic_to_seed(mnemonic, passphrase, seed, 0);
+    uint8_t seed[32];
+    uint8_t entropy[33];
+    mnemonic_to_entropy(mnemonic, entropy);
+    entropy[33]=0;
+    print_arr("entropy", entropy, 32);
+    mnemonic_to_seed(entropy, passphrase, seed, 0);
     compare_keys("Seed", seed, vseed, 64);
+
+    print_arr("seed", seed, 32);
 
     HDNode node;
     hdnode_from_seed(seed, 64, "secp256k1", &node);
     hdnode_fill_public_key(&node);
+    // ed25519_secret_key(&node.private_key[0], &node.public_key[0]);
     compare_keys("Master_pubkey", node.public_key, m_pubkey, publickey_len);
     compare_keys("Master_chaincode", node.chain_code, m_chaincode, privkey_len); 
     // node_details(node);    
+    print_arr("m4460000 public key", node.public_key, publickey_len); // of the input address of the unsigned txn
+    print_arr("m4460000 private key", node.private_key, privkey_len); // of the input address of the unsigned txn
 
     hdnode_private_ckd(&node, purpose);
     hdnode_fill_public_key(&node); 
     compare_keys("M44_pubkey", node.public_key, m44_pubkey, publickey_len);
     // node_details(node); 
+    print_arr("m4460000 public key", node.public_key, publickey_len); // of the input address of the unsigned txn
+    print_arr("m4460000 private key", node.private_key, privkey_len); // of the input address of the unsigned txn
 
     hdnode_private_ckd(&node, coin_type);
     hdnode_fill_public_key(&node);
     compare_keys("M4460_pubkey", node.public_key, m4460_pubkey, publickey_len);
     // node_details(node); 
+    print_arr("m4460000 public key", node.public_key, publickey_len); // of the input address of the unsigned txn
+    print_arr("m4460000 private key", node.private_key, privkey_len); // of the input address of the unsigned txn
 
     hdnode_private_ckd(&node, account);
     hdnode_fill_public_key(&node);
     compare_keys("M44600_pubkey", node.public_key, m44600_pubkey, publickey_len);
     // node_details(node); 
+    print_arr("m4460000 public key", node.public_key, publickey_len); // of the input address of the unsigned txn
+    print_arr("m4460000 private key", node.private_key, privkey_len); // of the input address of the unsigned txn
 
     hdnode_private_ckd(&node, change);
     hdnode_fill_public_key(&node);
     compare_keys("M446000_pubkey", node.public_key, m446000_pubkey, publickey_len);
     // node_details(node); 
+    print_arr("m4460000 public key", node.public_key, publickey_len); // of the input address of the unsigned txn
+    print_arr("m4460000 private key", node.private_key, privkey_len); // of the input address of the unsigned txn
 
     hdnode_private_ckd(&node, address_idx);
     hdnode_fill_public_key(&node);
     compare_keys("M4460000_pubkey", node.public_key, m4460000_pubkey, publickey_len);
     // node_details(node); 
+    print_arr("m4460000 public key", node.public_key, publickey_len); // of the input address of the unsigned txn
+    print_arr("m4460000 private key", node.private_key, privkey_len); // of the input address of the unsigned txn
 
     memcpy(public_key, node.public_key, publickey_len);
     memcpy(private_key, node.private_key, privkey_len);    

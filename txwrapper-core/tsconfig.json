@@ -1,0 +1,51 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": "./packages",
+    "resolveJsonModule": true,
+    "paths": {
+      "@substrate/txwrapper-core": [
+        "txwrapper-core/src"
+      ],
+      "@substrate/txwrapper-core/*": [
+        "txwrapper-core/src/*"
+      ],
+      "@substrate/txwrapper-dev": [
+        "txwrapper-dev/src"
+      ],
+      "@substrate/txwrapper-dev/*": [
+        "txwrapper-dev/src/*"
+      ],
+      "@substrate/txwrapper-examples": [
+        "txwrapper-examples/src"
+      ],
+      "@substrate/txwrapper-examples/*": [
+        "txwrapper-examples/src/*"
+      ],
+      "@substrate/txwrapper-orml": [
+        "txwrapper-orml/src"
+      ],
+      "@substrate/txwrapper-orml/*": [
+        "txwrapper-orml/src/*"
+      ],
+      "@substrate/txwrapper-polkadot": [
+        "txwrapper-polkadot/src"
+      ],
+      "@substrate/txwrapper-polkadot/*": [
+        "txwrapper-polkadot/src/*"
+      ],
+      "@substrate/txwrapper-registry": [
+        "txwrapper-registry/src"
+      ],
+      "@substrate/txwrapper-registry/*": [
+        "txwrapper-registry/src/*"
+      ],
+      "@substrate/txwrapper-substrate": [
+        "txwrapper-substrate/src"
+      ],
+      "@substrate/txwrapper-substrate/*": [
+        "txwrapper-substrate/src/*"
+      ]
+    }
+  }
+}

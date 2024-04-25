@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDirs": ["./multisig/src", "./polkadot/src", "./polkadotBatchAll/src", "./assetHubKusama/src","./foreignAssets/src", "./options/src"],
+  }
+}

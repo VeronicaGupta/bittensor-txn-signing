@@ -7,8 +7,8 @@ int main() {
     // *****************eth sepolia testnet details**********************//
 
     // get from bip39 (24 words) 
-    // const char* mnemonic = "spread sword village control response joke phrase share merit miss door canoe setup surge remind tiger increase sphere busy hand scrap diesel hair bomb";
-    const char* mnemonic = "coral range elite raw century ignore nominee oven sock right obey shove";
+    const char* mnemonic = "spread sword village control response joke phrase share merit miss door canoe setup surge remind tiger increase sphere busy hand scrap diesel hair bomb";
+    // const char* mnemonic = "coral range elite raw century ignore nominee oven sock right obey shove";
     const char* passphrase = "";
 
     const int pubkey_len = 33; // uncompressed
@@ -19,7 +19,7 @@ int main() {
 
     // Constants for HD path
     #define PURPOSE     0x8000002C  // 44
-    #define COIN_TYPE   0x800003ED  
+    #define COIN_TYPE   0x80000162  // 354  
     #define ACCOUNT     0x80000000 
     #define CHANGE      0x00000000
     #define ADDRESS_IDX 0x00000000
