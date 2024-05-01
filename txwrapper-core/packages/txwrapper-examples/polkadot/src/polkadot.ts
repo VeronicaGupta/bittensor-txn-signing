@@ -52,10 +52,6 @@ async function main(): Promise<void> {
 	console.log(chain.toString());
 	console.log(nodeName.toString());
 	console.log(nodeVersion.toString());
-	
-	// console.log("Substring in:", metadataRpc.indexOf("00171efe"));
-
-	// metadataRpc.magicNumber = 0x6174656d;
 
 	const registry = getRegistry({
 		chainName: chain.toString(),
@@ -63,8 +59,6 @@ async function main(): Promise<void> {
 		specVersion: specVersion,
 		metadataRpc: metadataRpc
 	});
-
-	
 	// console.log({registry});
 
 	// Get address
@@ -73,7 +67,7 @@ async function main(): Promise<void> {
 	const pair = keyring.addFromUri('spread sword village control response joke phrase share merit miss door canoe setup surge remind tiger increase sphere busy hand scrap diesel hair bomb', { name: 'mnemonic' }, 'ed25519');
 	const publicKey = Buffer.from(pair.publicKey).toString('hex');
 	console.log(`\nPublic Key expected: ${publicKey}`);
-	const addressBit = deriveAddress(pair.publicKey, PolkadotSS58Format.substrate);
+	const addressBit = deriveAddress(pair.publicKey, PolkadotSS58Format.westend);
 	console.log(`\nAddress expected: ${addressBit}`);
 
 	const nonce:number = await api.call.accountNonceApi.accountNonce(addressBit);
@@ -111,7 +105,7 @@ async function main(): Promise<void> {
 		},
 	);	
 
-	console.log({unsigned});
+	// console.log({unsigned});
 
 	// Decode an unsigned transaction.
 	// const decodedUnsigned = decode(unsigned, {
@@ -144,6 +138,7 @@ async function main(): Promise<void> {
 	// );
   
 	// Signature verify
+	console.log()
 	const signature = signWith(pair, signingPayload, {
 		metadataRpc,
 		registry,

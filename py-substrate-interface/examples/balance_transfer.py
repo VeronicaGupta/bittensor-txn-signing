@@ -18,14 +18,16 @@ from substrateinterface import SubstrateInterface, Keypair, KeypairType
 from substrateinterface.exceptions import SubstrateRequestException
 from scalecodec.base import ScaleBytes
 import ed25519_zebra
-
+import binascii
 
 # import logging
 # logging.basicConfig(level=logging.DEBUG)
 
 substrate = SubstrateInterface(url="wss://westend-rpc.polkadot.io")
-keypair = Keypair.create_from_uri('spread sword village control response joke phrase share merit miss door canoe setup surge remind tiger increase sphere busy hand scrap diesel hair bomb', ss58_format=substrate.ss58_format)
-print(keypair.ss58_address)
+keypair = Keypair.create_from_uri('spread sword village control response joke phrase share merit miss door canoe setup surge remind tiger increase sphere busy hand scrap diesel hair bomb', 42, KeypairType.ED25519)
+print("address :", keypair.ss58_address)
+print("secret key :", binascii.hexlify(keypair.private_key).decode())
+print("public key :", binascii.hexlify(keypair.public_key).decode())
 
 call = substrate.compose_call(
     call_module='Balances',
@@ -35,41 +37,47 @@ call = substrate.compose_call(
         'value': 12345
     }
 )
-
 print(call.data.to_hex())
+nonce = substrate.get_account_nonce(keypair.ss58_address) or 0
+
+print("nonce :", nonce, type(nonce))
 
 data = substrate.generate_signature_payload(
-                call=call, era=64, nonce=2, tip=0, tip_asset_id=0
+                call=call, nonce=nonce, tip=0, tip_asset_id=0
             )
 
-print("data before :", data)
-
-# Set Signature version to crypto type of keypair
-signature_version = keypair.crypto_type
+data_before = data
 
 if type(data) is ScaleBytes:
     data = bytes(data.data)
+    print("imp scale")
 elif data[0:2] == '0x':
     data = bytes.fromhex(data[2:])
+    print("imp 0x")
 elif type(data) is str:
     data = data.encode()
+    print("imp str")
     
-print("data after :", data)
+data_after = binascii.hexlify(data).decode()
 
-crypto_type = KeypairType.ED25519
+# if data.data == data_after:
+#     print("data same after encoding: ", data_after)
+# else:
+print("unsigned txn:", data_before, data_after)
+
+# manual
 signature = ed25519_zebra.ed_sign(keypair.private_key, data)
-
-print("sig manual :", data)
+print("sig manual :", binascii.hexlify(signature).decode())
             
-# Sign payload
+# func
 signature = keypair.sign(data)
-
-print("sig func :", data)
+print("sig func :", binascii.hexlify(signature).decode())
 
 extrinsic = substrate.create_signed_extrinsic(
     call=call,
     keypair=keypair,
-    era={'period': 64}
+    nonce=nonce,
+    signature=f'0x00{signature.hex()}'
 )
 
 try:

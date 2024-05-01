@@ -1536,7 +1536,6 @@ class SubstrateInterface:
         }
 
         signature_payload.encode(payload_dict)
-        print("sig_payload", signature_payload)
 
         if signature_payload.data.length > 256:
             print("sig_payload_blake", blake2b(signature_payload.data.data, digest_size=32).digest())

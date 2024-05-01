@@ -19,7 +19,7 @@
     "foreignAssets": "node ./lib/txwrapper-examples/foreignAssets/src/foreignAssets",
     "polkadotBatchAll": "node ./lib/txwrapper-examples/polkadotBatchAll/src/polkadotBatchAll",
     "mandala": "node lib/mandala",
-    "multisig": "node ./lib/txwrapper-examples/lib/multisig/src/multisig",
+    "multisig": "node ./lib/txwrapper-examples/multisig/src/multisig",
     "asSpecifiedCallsOnlyV14": "node ./lib/options/src/asSpecifiedCallsOnlyV14"
   },
   "dependencies": {
