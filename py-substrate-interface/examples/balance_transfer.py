@@ -60,10 +60,10 @@ elif type(data) is str:
     
 data_after = binascii.hexlify(data).decode()
 
-# if data.data == data_after:
+# if data_before[2:] == data_after:
 #     print("data same after encoding: ", data_after)
 # else:
-print("unsigned txn:", data_before, data_after)
+print("unsigned txn:", data_after)
 
 # manual
 signature = ed25519_zebra.ed_sign(keypair.private_key, data)

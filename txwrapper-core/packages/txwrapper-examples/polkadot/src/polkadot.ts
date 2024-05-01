@@ -28,30 +28,15 @@ async function main(): Promise<void> {
 	const api = await ApiPromise.create({ provider: wsProvider });
 
 	const dest = '5CSbZ7wG456oty4WoiX6a1J88VUbrCXLhrKVJ9q95BsYH4TZ';
-	const amount = 123; // WND
+	const amount = 100; // WND
 
+	// Get meta data
 	const blockNumber:number = convertToJson(await api.rpc.chain.getBlock()).block.header.number;
 	const blockHash = (await api.rpc.chain.getBlockHash(blockNumber)).toHex();
 	const genesisHash = api.genesisHash.toHex()
 	const metadataRpc:any = convertToJson(await api.rpc("state_getMetadata"));
 	const { specVersion, transactionVersion, specName }:any = await api.rpc.state.getRuntimeVersion();
-
-	// Retrieve the chain & node information via rpc calls
-	const [chain, nodeName, nodeVersion] = await Promise.all([
-		api.rpc.system.chain(),
-		api.rpc.system.name(),
-		api.rpc.system.version()
-	]);
-
-	// console.log({blockNumber});
-	// console.log({blockHash});
-	// console.log({genesisHash});
-	console.log({metadataRpc});
-	console.log({specName});
-	console.log({specVersion});
-	console.log(chain.toString());
-	console.log(nodeName.toString());
-	console.log(nodeVersion.toString());
+	const chain = await api.rpc.system.chain();
 
 	const registry = getRegistry({
 		chainName: chain.toString(),
@@ -59,7 +44,7 @@ async function main(): Promise<void> {
 		specVersion: specVersion,
 		metadataRpc: metadataRpc
 	});
-	// console.log({registry});
+	registry.setMetadata(createMetadata(registry, metadataRpc));
 
 	// Get address
 	const keyring = new Keyring();
@@ -67,6 +52,7 @@ async function main(): Promise<void> {
 	const pair = keyring.addFromUri('spread sword village control response joke phrase share merit miss door canoe setup surge remind tiger increase sphere busy hand scrap diesel hair bomb', { name: 'mnemonic' }, 'ed25519');
 	const publicKey = Buffer.from(pair.publicKey).toString('hex');
 	console.log(`\nPublic Key expected: ${publicKey}`);
+
 	const addressBit = deriveAddress(pair.publicKey, PolkadotSS58Format.westend);
 	console.log(`\nAddress expected: ${addressBit}`);
 
@@ -105,8 +91,6 @@ async function main(): Promise<void> {
 		},
 	);	
 
-	// console.log({unsigned});
-
 	// Decode an unsigned transaction.
 	// const decodedUnsigned = decode(unsigned, {
 	//   metadataRpc,
@@ -117,15 +101,16 @@ async function main(): Promise<void> {
 	// 	(decodedUnsigned.method.args.dest)
 	//   }\n  Amount: ${decodedUnsigned.method.args.value}`,
 	// );
-	
-	// Important! The registry needs to be updated with latest metadata, so make
-	// sure to run `registry.setMetadata(metadata)` before signing.
-	registry.setMetadata(createMetadata(registry, metadataRpc));
   
 	// Construct the signing payload from an unsigned transaction.
 	const signingPayload = construct.signingPayload(unsigned, { registry });
 	console.log(`\nPayload to Sign: ${signingPayload}`);
-  
+	console.log(`\nPayload to Sign: 0x${signingPayload.substring(4)}`);
+	
+
+	console.log(`\nDestination address: ${dest}`);
+	console.log(`\nAmount: ${amount}`);
+
 	// // Decode the information from a signing payload.
 	// const payloadInfo = decode(signingPayload, {
 	//   metadataRpc,
@@ -144,9 +129,6 @@ async function main(): Promise<void> {
 		registry,
 	});
 	console.log(`\nSignature expected: ${signature}`);
-
-	console.log(`\nDestination address: ${dest}`);
-	console.log(`\nAmount: ${amount}`);
 
 	// Expected Serialize a signed transaction.
 	const tx = construct.signedTx(unsigned, signature, {
