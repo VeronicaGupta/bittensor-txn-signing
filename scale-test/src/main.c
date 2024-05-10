@@ -1,20 +1,22 @@
+
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
-#include "cScale/src/scale.h"
+#include "scale.h"
 
 
 // Function to convert a hexadecimal value represented as a uint8_t array to its decimal equivalent in WND
 double hexToDecimalWND(const uint8_t *hexValue, size_t length) {
     // Convert hexadecimal value to decimal value
     
-    scale_compact_int compact = SCALE_COMPACT_INT_INIT;
-    memcpy(compact.data, hexValue, length);
-    char *compact_hex = decode_compact_to_hex(&compact);
-    uint16_t decimalValue = strtoull(compact_hex, NULL, 16);
-    printf("%s = %u\n", compact_hex, decimalValue);
-    free(compact_hex);
+    // scale_compact_int compact = SCALE_COMPACT_INT_INIT;
+    // memcpy(compact.data, hexValue, length);
+    // char *compact_hex = decode_compact_to_hex(&compact);
+    // uint16_t decimalValue = strtoull(compact_hex, NULL, 16);
+    // printf("%s = %u\n", compact_hex, decimalValue);
+    // free(compact_hex);
 
+    double decimalValue;
     // Scale the decimal value to represent WND
     decimalValue *= 1e-12; // Scaling by 10^-12 for WND
 
