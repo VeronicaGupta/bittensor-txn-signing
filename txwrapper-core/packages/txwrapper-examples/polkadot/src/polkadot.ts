@@ -24,11 +24,12 @@ const convertToJson = (data: any) => JSON.parse(JSON.stringify(data));
 
 async function main(): Promise<void> {
 	// Construct
-	const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io');
+	// const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io');
+	const wsProvider = new WsProvider('wss://test.finney.opentensor.ai:443');
 	const api = await ApiPromise.create({ provider: wsProvider });
 
 	const dest = '5CSbZ7wG456oty4WoiX6a1J88VUbrCXLhrKVJ9q95BsYH4TZ';
-	const amount = 100; // WND
+	const amount = 1; // WND
 
 	// Get meta data
 	const blockNumber:number = convertToJson(await api.rpc.chain.getBlock()).block.header.number;
@@ -53,7 +54,7 @@ async function main(): Promise<void> {
 	const publicKey = Buffer.from(pair.publicKey).toString('hex');
 	console.log(`\nPublic Key expected: ${publicKey}`);
 
-	const addressBit = deriveAddress(pair.publicKey, PolkadotSS58Format.westend);
+	const addressBit = deriveAddress(pair.publicKey, PolkadotSS58Format.substrate);
 	console.log(`\nAddress expected: ${addressBit}`);
 
 	const nonce:number = await api.call.accountNonceApi.accountNonce(addressBit);
@@ -142,6 +143,9 @@ async function main(): Promise<void> {
 	console.log(`\nTx Hash expected: ${expectedTxHash}`);
 	const actualTxHashdevice = await api.rpc.author.submitExtrinsic(tx);
 	console.log(`Tx Hash actual device: ${actualTxHashdevice}`);
+
+	const blockHashNew = (await api.rpc.chain.getBlockHash(blockNumber)).toHex();
+	console.log("Block Hash: ", blockHashNew);
 
 	// // Decode a signed payload.
 	// const txInfo = decode(tx, {
