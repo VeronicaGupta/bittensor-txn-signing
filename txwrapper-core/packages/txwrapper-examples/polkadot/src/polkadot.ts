@@ -24,8 +24,9 @@ const convertToJson = (data: any) => JSON.parse(JSON.stringify(data));
 
 async function main(): Promise<void> {
 	// Construct
-	// const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io');
-	const wsProvider = new WsProvider('wss://test.finney.opentensor.ai:443');
+	// const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io'); // polkadot testnet
+	// const wsProvider = new WsProvider('wss://entrypoint-finney.opentensor.ai:443'); // bittensor mainnet
+	const wsProvider = new WsProvider('wss://test.finney.opentensor.ai:443'); // bittensor testnet
 	const api = await ApiPromise.create({ provider: wsProvider });
 
 	const dest = '5CSbZ7wG456oty4WoiX6a1J88VUbrCXLhrKVJ9q95BsYH4TZ';
